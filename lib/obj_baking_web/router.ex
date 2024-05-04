@@ -7,6 +7,9 @@ defmodule ObjBakingWeb.Router do
 
   scope "/api", ObjBakingWeb do
     pipe_through :api
+    post "/transacao", TransactionController, :register_transaction
+    post "/conta", ContaController, :create_conta
+    get "/conta", ContaController, :get_conta
   end
 
   # Enable LiveDashboard in development

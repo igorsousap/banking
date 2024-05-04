@@ -2,7 +2,6 @@ defmodule ObjBaking.Persistence.Contas do
   @moduledoc """
   Module for register account on database
   """
-  alias Logger.Backends.Internal
   alias ObjBaking.Repo
   alias ObjBaking.Persistence.Contas.Conta
 
@@ -11,13 +10,15 @@ defmodule ObjBaking.Persistence.Contas do
   ## Examples
 
       iex> ObjBaking.Persistence.Contas.create_conta(%{
+         "conta_id" => 2,
           "saldo" => 500.0
         })
 
   """
-  @spec create_conta(%{:saldo => Float.t()}) :: {:ok, %ObjBaking.Persistence.Contas.Conta{}}
-  def create_conta(parametros) do
-    parametros
+  @spec create_conta(%{:conta_id => Integer.t(), :saldo => Float.t()}) ::
+          {:ok, %ObjBaking.Persistence.Contas.Conta{}} | {:error, :conta_id_alredy_exists}
+  def create_conta(params) do
+    params
     |> build_changeset()
     |> Conta.changeset()
     |> Repo.insert()
@@ -27,22 +28,20 @@ defmodule ObjBaking.Persistence.Contas do
   Receive a id and return an account
   ## Examples
 
-      iex> ObjBaking.Persistence.Contas.get_conta(%{
-          "id" => 1
-        })
+      iex> ObjBaking.Persistence.Contas.get_conta(10)
 
   """
-  @spec get_conta(%{:id => Integer.t()}) ::
-          Ecto.Schema.t() | {:error, :not_found}
-  def get_conta(parametros) do
+  @spec get_conta(Integer.t()) ::
+          %ObjBaking.Persistence.Contas.Conta{} | {:error, :not_found}
+  def get_conta(conta_id) do
     account =
-      parametros
+      conta_id
       |> Conta.query()
       |> Repo.all()
 
     case account do
       [] ->
-        {:error, :account_not_fount}
+        {:error, :account_not_found}
 
       [account | _tail] ->
         account
@@ -54,17 +53,18 @@ defmodule ObjBaking.Persistence.Contas do
   ## Examples
 
       iex> ObjBaking.Persistence.Contas.update_saldo(%{
-          "id" => 1,
-          "saldo" => 100,
-          "saldo_anterior" => 120
+          "conta_id" => 10,
+          "saldo" => 100
         })
 
   """
-
-  @spec update_saldo(%{:id => Integer.t(), :saldo => Internal.t(), :saldo_anterior => Integer.t()}) ::
+  @spec update_saldo(%{
+          :conta_id => Integer.t(),
+          :saldo => Integer.t()
+        }) ::
           {:ok, %ObjBaking.Persistence.Contas.Conta{}} | {:error, :not_found}
-  def update_saldo(parametros) do
-    account = Conta.query(%{"id" => parametros["id"]}) |> Repo.all()
+  def update_saldo(params) do
+    account = Conta.query(params["conta_id"]) |> Repo.all()
 
     case account do
       [] ->
@@ -73,13 +73,14 @@ defmodule ObjBaking.Persistence.Contas do
       account ->
         account
         |> List.first()
-        |> Conta.changeset(parametros)
+        |> Conta.changeset(params)
         |> Repo.update()
     end
   end
 
-  defp build_changeset(%{"saldo" => saldo}) do
+  defp build_changeset(%{"saldo" => saldo, "conta_id" => conta_id}) do
     %{
+      conta_id: conta_id,
       saldo: saldo
     }
   end
