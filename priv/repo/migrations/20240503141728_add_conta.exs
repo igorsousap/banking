@@ -7,7 +7,5 @@ defmodule ObjBaking.Repo.Migrations.AddConta do
       add :saldo, :float, default: 0
       timestamps()
     end
-
-    create(unique_index(:conta, [:conta_id]))
   end
 end

@@ -1,7 +1,10 @@
 defmodule ObjBaking.Transactions.Transaction do
+  @moduledoc """
+  Module for make a transaction
+  """
   require Logger
 
-  alias ObjBaking.Persistence.Contas
+  alias ObjBaking.Persistence.Accounts
 
   @doc """
   Receive a account id to be updated on database
@@ -18,70 +21,51 @@ defmodule ObjBaking.Transactions.Transaction do
           :forma_pagamento => String.t(),
           :valor => Integer.t(),
           :conta_id => Integer.t()
-        }) :: {:ok, map()} | {:error, :not_found_payment}
+        }) ::
+          {:ok, map()}
+          | {:error, :invalid_payment}
+          | {:error, :account_not_found}
+          | {:error, :account_no_balance}
   def transaction(%{"forma_pagamento" => forma_pagamento} = args) do
-    case Contas.get_conta(args["conta_id"]) do
+    case Accounts.get_conta(args["conta_id"]) do
       {:error, :account_not_found} ->
         {:error, :account_not_found}
 
       account ->
-        Logger.info("Iniciando a transacao")
-        define_payment(forma_pagamento, account, args["valor"])
+        Logger.info("Starting transaction")
+
+        with {:saldo, new_saldo} <-
+               define_payment(forma_pagamento, account.saldo, args["valor"]),
+             {:ok, account_updated} <-
+               Accounts.update_transaction(%{"conta_id" => account.conta_id, "saldo" => new_saldo}) do
+          {:ok, %{"conta_id" => account_updated.conta_id, "saldo" => account_updated.saldo}}
+        end
     end
   end
 
-  defp define_payment(forma_pagamento, account, valor) do
-    case forma_pagamento do
-      "D" -> debito(account, valor)
-      "C" -> credito(account, valor)
-      "P" -> pix(account, valor)
-    end
+  defp define_payment("D", saldo, valor) do
+    Logger.info("Payment on debit with a value of #{valor} reais")
+    saldo_result = saldo - valor * 1.03
+    new_saldo = Float.ceil(saldo_result, 2)
+    {:saldo, new_saldo}
   end
 
-  defp debito(
-         %ObjBaking.Persistence.Contas.Conta{conta_id: conta_id, saldo: saldo},
-         valor
-       ) do
-    Logger.info("Pagamento no debito no valor de #{valor} reais")
-    new_saldo = saldo - valor * 1.03
-    Contas.update_saldo(%{"conta_id" => conta_id, "saldo" => new_saldo})
-
-    {:ok,
-     %{
-       "conta_id" => conta_id,
-       "saldo" => new_saldo
-     }}
+  defp define_payment("C", saldo, valor) do
+    Logger.info("Credit payment with a value of #{valor} reais")
+    saldo_result = saldo - valor * 1.0
+    new_saldo = Float.ceil(saldo_result, 2)
+    {:saldo, new_saldo}
   end
 
-  defp credito(
-         %ObjBaking.Persistence.Contas.Conta{conta_id: conta_id, saldo: saldo},
-         valor
-       ) do
-    Logger.info("Pagamento no debito no Credito no valor de #{valor} reais")
-    new_saldo = saldo - valor * 1.05
-
-    Contas.update_saldo(%{"conta_id" => conta_id, "saldo" => new_saldo})
-
-    {:ok,
-     %{
-       "conta_id" => conta_id,
-       "saldo" => new_saldo
-     }}
+  defp define_payment("P", saldo, valor) do
+    Logger.info("Payment on Pix with a value of #{valor} reais")
+    saldo_result = saldo - valor
+    new_saldo = Float.ceil(saldo_result, 2)
+    {:saldo, new_saldo}
   end
 
-  defp pix(
-         %ObjBaking.Persistence.Contas.Conta{conta_id: conta_id, saldo: saldo},
-         valor
-       ) do
-    Logger.info("Pagamento no debito no Pix no valor de #{valor} reais")
-    new_saldo = saldo - valor
-
-    Contas.update_saldo(%{"conta_id" => conta_id, "saldo" => new_saldo})
-
-    {:ok,
-     %{
-       "conta_id" => conta_id,
-       "saldo" => new_saldo
-     }}
+  defp define_payment(forma_pagamento, _saldo, _valor) do
+    Logger.info("Invalid method of payment #{forma_pagamento} ")
+    {:error, :invalid_payment}
   end
 end

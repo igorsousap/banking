@@ -4,11 +4,21 @@ defmodule ObjBakingWeb.TransactionController do
 
   plug :accepts, ~w(json ...)
 
+  @spec register_transaction(Plug.Conn.t(), %{
+          conta_id: Integer.t(),
+          forma_pagamento: String.t(),
+          valor: Integer.t()
+        }) :: Plug.Conn.t()
   def register_transaction(conn, params) do
     case Transaction.transaction(params) do
-      {:error, error} ->
+      {:error, :account_not_found} ->
         conn
         |> put_status(404)
+        |> render(:index, error: :account_not_found)
+
+      {:error, error} ->
+        conn
+        |> put_status(405)
         |> render(:index, error: error)
 
       {:ok, body} ->

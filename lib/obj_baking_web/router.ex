@@ -9,6 +9,7 @@ defmodule ObjBakingWeb.Router do
     pipe_through :api
     post "/transacao", TransactionController, :register_transaction
     post "/conta", ContaController, :create_conta
+    put "/conta", ContaController, :update_conta
     get "/conta", ContaController, :get_conta
   end
 

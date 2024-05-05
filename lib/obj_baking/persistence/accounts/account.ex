@@ -1,4 +1,4 @@
-defmodule ObjBaking.Persistence.Contas.Conta do
+defmodule ObjBaking.Persistence.Accounts.Account do
   @moduledoc """
   Ecto changeset for validation the struct to be sabed and query for get and update
   """
@@ -17,7 +17,7 @@ defmodule ObjBaking.Persistence.Contas.Conta do
   @fields [:saldo, :conta_id]
 
   @doc """
-  Can receive a struct for update a data or nothing and return a empyt struct to be created on database
+  Can receive a struct for update a data or nothing and return a empty struct to be created on database
   ## Examples
     case for a update a existing data
       iex> ObjBaking.Persistence.Contas.Conta.changeset(
@@ -41,11 +41,11 @@ defmodule ObjBaking.Persistence.Contas.Conta do
     |> cast(params, @fields)
     |> validate_required(@fields)
     |> validate_number(:saldo, greater_than_or_equal_to: 0)
-    |> unique_constraint(:conta_id, name: :conta_id, message: "alredy taken")
+    |> unique_constraint(:conta_id, name: :conta_pkey)
   end
 
-  @spec query(Integer.t()) :: Ecto.Query.t()
-  def query(conta_id) do
+  @spec query_account_id(Integer.t()) :: Ecto.Query.t()
+  def query_account_id(conta_id) do
     query =
       from(c in __MODULE__,
         where: c.conta_id == ^conta_id

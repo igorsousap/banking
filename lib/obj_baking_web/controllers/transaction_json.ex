@@ -3,7 +3,7 @@ defmodule ObjBakingWeb.TransactionJSON do
     data
   end
 
-  def index(_assigns) do
-    %{error: :account_not_found}
+  def index(_assigns = %{error: error}) do
+    %{error: error}
   end
 end
