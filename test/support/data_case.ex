@@ -1,4 +1,4 @@
-defmodule ObjBaking.DataCase do
+defmodule ObjBanking.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -10,7 +10,7 @@ defmodule ObjBaking.DataCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use ObjBaking.DataCase, async: true`, although
+  by setting `use ObjBanking.DataCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -18,17 +18,17 @@ defmodule ObjBaking.DataCase do
 
   using do
     quote do
-      alias ObjBaking.Repo
+      alias ObjBanking.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import ObjBaking.DataCase
+      import ObjBanking.DataCase
     end
   end
 
   setup tags do
-    ObjBaking.DataCase.setup_sandbox(tags)
+    ObjBanking.DataCase.setup_sandbox(tags)
     :ok
   end
 
@@ -36,7 +36,7 @@ defmodule ObjBaking.DataCase do
   Sets up the sandbox based on the test tags.
   """
   def setup_sandbox(tags) do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(ObjBaking.Repo, shared: not tags[:async])
+    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(ObjBanking.Repo, shared: not tags[:async])
     on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
   end
 

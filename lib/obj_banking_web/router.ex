@@ -1,11 +1,11 @@
-defmodule ObjBakingWeb.Router do
-  use ObjBakingWeb, :router
+defmodule ObjBankingWeb.Router do
+  use ObjBankingWeb, :router
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ObjBakingWeb do
+  scope "/api", ObjBankingWeb do
     pipe_through :api
     post "/transacao", TransactionController, :register_transaction
     put "/conta", TransactionController, :update_balance
@@ -14,7 +14,7 @@ defmodule ObjBakingWeb.Router do
   end
 
   # Enable LiveDashboard in development
-  if Application.compile_env(:obj_baking, :dev_routes) do
+  if Application.compile_env(:obj_banking, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
     # it behind authentication and allow only admins to access it.
     # If your application does not have an admins-only section yet,
@@ -25,7 +25,7 @@ defmodule ObjBakingWeb.Router do
     scope "/dev" do
       pipe_through [:fetch_session, :protect_from_forgery]
 
-      live_dashboard "/dashboard", metrics: ObjBakingWeb.Telemetry
+      live_dashboard "/dashboard", metrics: ObjBankingWeb.Telemetry
     end
   end
 end

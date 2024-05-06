@@ -1,6 +1,6 @@
-defmodule ObjBakingWeb.AccountController do
-  use ObjBakingWeb, :controller
-  alias ObjBaking.Persistence.Accounts
+defmodule ObjBankingWeb.AccountController do
+  use ObjBankingWeb, :controller
+  alias ObjBanking.Persistence.Accounts
 
   plug :accepts, ~w(json ...)
 
@@ -39,7 +39,7 @@ defmodule ObjBakingWeb.AccountController do
     end
   end
 
-  defp build_conta(%ObjBaking.Persistence.Accounts.Account{conta_id: conta_id, saldo: saldo}) do
+  defp build_conta(%ObjBanking.Persistence.Accounts.Account{conta_id: conta_id, saldo: saldo}) do
     %{"conta_id" => conta_id, "saldo" => saldo}
   end
 end

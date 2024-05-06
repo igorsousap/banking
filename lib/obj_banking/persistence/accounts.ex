@@ -1,24 +1,24 @@
-defmodule ObjBaking.Persistence.Accounts do
+defmodule ObjBanking.Persistence.Accounts do
   @moduledoc """
   Module for register account on database
   """
   require Logger
 
-  alias ObjBaking.Repo
-  alias ObjBaking.Persistence.Accounts.Account
+  alias ObjBanking.Repo
+  alias ObjBanking.Persistence.Accounts.Account
 
   @doc """
   Receive a map to be inserted on database
   ## Examples
 
-      iex> ObjBaking.Persistence.Accounts.create_account(%{
+      iex> ObjBanking.Persistence.Accounts.create_account(%{
          "conta_id" => 2,
           "saldo" => 500.0
         })
 
   """
   @spec create_account(%{:conta_id => Integer.t(), :saldo => Float.t()}) ::
-          {:ok, %ObjBaking.Persistence.Accounts.Account{}} | {:error, :conta_id_alredy_exists}
+          {:ok, %ObjBanking.Persistence.Accounts.Account{}} | {:error, :conta_id_alredy_exists}
   def create_account(params) do
     account =
       params
@@ -40,11 +40,11 @@ defmodule ObjBaking.Persistence.Accounts do
   Receive a id and return an account
   ## Examples
 
-      iex> ObjBaking.Persistence.Accounts.get_account(10)
+      iex> ObjBanking.Persistence.Accounts.get_account(10)
 
   """
   @spec get_account(Integer.t()) ::
-          {:ok, %ObjBaking.Persistence.Accounts.Account{}} | {:error, :account_not_found}
+          {:ok, %ObjBanking.Persistence.Accounts.Account{}} | {:error, :account_not_found}
   def get_account(conta_id) do
     account =
       conta_id
@@ -64,7 +64,7 @@ defmodule ObjBaking.Persistence.Accounts do
   Receive a account id to be updated on database
   ## Examples
 
-      iex> ObjBaking.Persistence.Accounts.update_account(%{
+      iex> ObjBanking.Persistence.Accounts.update_account(%{
           "conta_id" => 10,
           "saldo" => 100
         })
@@ -74,7 +74,7 @@ defmodule ObjBaking.Persistence.Accounts do
           :conta_id => Integer.t(),
           :saldo => Float.t()
         }) ::
-          {:ok, %ObjBaking.Persistence.Accounts.Account{}}
+          {:ok, %ObjBanking.Persistence.Accounts.Account{}}
           | {:error, :account_not_found}
           | {:error, :account_no_balance}
   def update_account(params) do

@@ -1,16 +1,16 @@
-defmodule ObjBaking.Transactions.Transaction do
+defmodule ObjBanking.Transactions.Transaction do
   @moduledoc """
   Module for make a transaction
   """
   require Logger
 
-  alias ObjBaking.Persistence.Accounts
+  alias ObjBanking.Persistence.Accounts
 
   @doc """
   Receive the call to make a transaction and defines de type of operation
   ## Examples
 
-      iex>  ObjBaking.Transactions.Transaction.operation(%{
+      iex>  ObjBanking.Transactions.Transaction.operation(%{
           "conta_id" => 10,
           "valor" => 10,
           "forma_pagamento" => "D"

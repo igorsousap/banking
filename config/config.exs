@@ -7,19 +7,19 @@
 # General application configuration
 import Config
 
-config :obj_baking,
-  ecto_repos: [ObjBaking.Repo],
+config :obj_banking,
+  ecto_repos: [ObjBanking.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :obj_baking, ObjBakingWeb.Endpoint,
+config :obj_banking, ObjBankingWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [json: ObjBakingWeb.ErrorJSON],
+    formats: [json: ObjBankingWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: ObjBaking.PubSub,
+  pubsub_server: ObjBanking.PubSub,
   live_view: [signing_salt: "lvd65BiN"]
 
 # Configures Elixir's Logger

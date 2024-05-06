@@ -1,4 +1,4 @@
-defmodule ObjBaking.Repo.Migrations.AddConta do
+defmodule ObjBanking.Repo.Migrations.AddConta do
   use Ecto.Migration
 
   def change do

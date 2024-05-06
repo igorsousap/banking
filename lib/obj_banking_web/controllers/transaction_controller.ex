@@ -1,6 +1,6 @@
-defmodule ObjBakingWeb.TransactionController do
-  use ObjBakingWeb, :controller
-  alias ObjBaking.Transactions.Transaction
+defmodule ObjBankingWeb.TransactionController do
+  use ObjBankingWeb, :controller
+  alias ObjBanking.Transactions.Transaction
 
   plug :accepts, ~w(json ...)
 

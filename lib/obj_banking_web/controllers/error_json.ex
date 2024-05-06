@@ -1,4 +1,4 @@
-defmodule ObjBakingWeb.ErrorJSON do
+defmodule ObjBankingWeb.ErrorJSON do
   @moduledoc """
   This module is invoked by your endpoint in case of errors on JSON requests.
 
