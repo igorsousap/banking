@@ -22,6 +22,7 @@ defmodule ObjBanking.Persistence.Accounts.Account do
     case for a update a existing data
       iex> ObjBanking.Persistence.Contas.Conta.changeset(
          %ObjBanking.Persistence.Contas.Conta{
+                  conta_id: 1,
                    saldo: 10.0
                  },
           %{
@@ -30,6 +31,7 @@ defmodule ObjBanking.Persistence.Accounts.Account do
   Case for a insert a new data
       iex> ObjBanking.Persistence.Contas.Conta.changeset(
         %{
+          conta_id: 1,
           saldo: 500.0
         })
 

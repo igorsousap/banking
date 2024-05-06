@@ -18,7 +18,9 @@ defmodule ObjBanking.Persistence.Accounts do
 
   """
   @spec create_account(%{:conta_id => Integer.t(), :saldo => Float.t()}) ::
-          {:ok, %ObjBanking.Persistence.Accounts.Account{}} | {:error, :conta_id_alredy_exists}
+          {:ok, %ObjBanking.Persistence.Accounts.Account{}}
+          | {:error, :account_alredy_exists}
+          | {:error, :balance_under_zero}
   def create_account(params) do
     account =
       params
@@ -26,7 +28,24 @@ defmodule ObjBanking.Persistence.Accounts do
       |> Account.changeset()
 
     case Repo.insert(account) do
-      {:error, _changeset} ->
+      {:error,
+       %Ecto.Changeset{
+         errors: [
+           saldo:
+             {"must be greater than or equal to %{number}",
+              [validation: :number, kind: :greater_than_or_equal_to, number: 0]}
+         ]
+       }} ->
+        Logger.error("Cant create a account with value under 0")
+        {:error, :balance_under_zero}
+
+      {:error,
+       %Ecto.Changeset{
+         errors: [
+           conta_id:
+             {"has already been taken", [constraint: :unique, constraint_name: "conta_pkey"]}
+         ]
+       }} ->
         Logger.error("Account alredy created")
         {:error, :account_alredy_exists}
 

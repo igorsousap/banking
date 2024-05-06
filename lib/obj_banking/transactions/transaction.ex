@@ -52,7 +52,7 @@ defmodule ObjBanking.Transactions.Transaction do
 
   defp define_type("C", saldo, valor) do
     Logger.info("Credit payment with a value of #{valor} reais")
-    saldo_result = saldo - valor * 1.0
+    saldo_result = saldo - valor * 1.05
     new_saldo = Float.ceil(saldo_result, 2)
     {:saldo, new_saldo}
   end
