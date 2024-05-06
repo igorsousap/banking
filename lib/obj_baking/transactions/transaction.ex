@@ -32,7 +32,6 @@ defmodule ObjBaking.Transactions.Transaction do
         {:error, :account_not_found}
 
       {:ok, account} ->
-        IO.inspect(account, label: :account)
         Logger.info("Starting Operation")
 
         with {:saldo, new_saldo} <-
