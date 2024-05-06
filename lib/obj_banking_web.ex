@@ -1,12 +1,12 @@
-defmodule ObjBakingWeb do
+defmodule ObjBankingWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, components, channels, and so on.
 
   This can be used in your application as:
 
-      use ObjBakingWeb, :controller
-      use ObjBakingWeb, :html
+      use ObjBankingWeb, :controller
+      use ObjBankingWeb, :html
 
   The definitions below will be executed for every controller,
   component, etc, so keep them short and clean, focused
@@ -39,7 +39,7 @@ defmodule ObjBakingWeb do
     quote do
       use Phoenix.Controller,
         formats: [:html, :json],
-        layouts: [html: ObjBakingWeb.Layouts]
+        layouts: [html: ObjBankingWeb.Layouts]
 
       import Plug.Conn
 
@@ -50,9 +50,9 @@ defmodule ObjBakingWeb do
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,
-        endpoint: ObjBakingWeb.Endpoint,
-        router: ObjBakingWeb.Router,
-        statics: ObjBakingWeb.static_paths()
+        endpoint: ObjBankingWeb.Endpoint,
+        router: ObjBankingWeb.Router,
+        statics: ObjBankingWeb.static_paths()
     end
   end
 

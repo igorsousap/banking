@@ -1,4 +1,4 @@
-defmodule ObjBaking.Persistence.Accounts.Account do
+defmodule ObjBanking.Persistence.Accounts.Account do
   @moduledoc """
   Ecto changeset for validation the struct to be sabed and query for get and update
   """
@@ -20,15 +20,15 @@ defmodule ObjBaking.Persistence.Accounts.Account do
   Can receive a struct for update a data or nothing and return a empty struct to be created on database
   ## Examples
     case for a update a existing data
-      iex> ObjBaking.Persistence.Contas.Conta.changeset(
-         %ObjBaking.Persistence.Contas.Conta{
+      iex> ObjBanking.Persistence.Contas.Conta.changeset(
+         %ObjBanking.Persistence.Contas.Conta{
                    saldo: 10.0
                  },
           %{
           saldo: 60.0
           })
   Case for a insert a new data
-      iex> ObjBaking.Persistence.Contas.Conta.changeset(
+      iex> ObjBanking.Persistence.Contas.Conta.changeset(
         %{
           saldo: 500.0
         })

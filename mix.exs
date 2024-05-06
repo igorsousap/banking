@@ -1,9 +1,9 @@
-defmodule ObjBaking.MixProject do
+defmodule ObjBanking.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :obj_baking,
+      app: :obj_banking,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -18,7 +18,7 @@ defmodule ObjBaking.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {ObjBaking.Application, []},
+      mod: {ObjBanking.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

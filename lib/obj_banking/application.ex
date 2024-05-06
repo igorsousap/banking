@@ -1,4 +1,4 @@
-defmodule ObjBaking.Application do
+defmodule ObjBanking.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -8,19 +8,19 @@ defmodule ObjBaking.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      ObjBakingWeb.Telemetry,
-      ObjBaking.Repo,
-      {DNSCluster, query: Application.get_env(:obj_baking, :dns_cluster_query) || :ignore},
-      {Phoenix.PubSub, name: ObjBaking.PubSub},
-      # Start a worker by calling: ObjBaking.Worker.start_link(arg)
-      # {ObjBaking.Worker, arg},
+      ObjBankingWeb.Telemetry,
+      ObjBanking.Repo,
+      {DNSCluster, query: Application.get_env(:obj_banking, :dns_cluster_query) || :ignore},
+      {Phoenix.PubSub, name: ObjBanking.PubSub},
+      # Start a worker by calling: ObjBanking.Worker.start_link(arg)
+      # {ObjBanking.Worker, arg},
       # Start to serve requests, typically the last entry
-      ObjBakingWeb.Endpoint
+      ObjBankingWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: ObjBaking.Supervisor]
+    opts = [strategy: :one_for_one, name: ObjBanking.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -28,7 +28,7 @@ defmodule ObjBaking.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    ObjBakingWeb.Endpoint.config_change(changed, removed)
+    ObjBankingWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

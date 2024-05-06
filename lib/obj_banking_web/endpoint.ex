@@ -1,12 +1,12 @@
-defmodule ObjBakingWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :obj_baking
+defmodule ObjBankingWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :obj_banking
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_obj_baking_key",
+    key: "_obj_banking_key",
     signing_salt: "vjcnzzyl",
     same_site: "Lax"
   ]
@@ -21,15 +21,15 @@ defmodule ObjBakingWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :obj_baking,
+    from: :obj_banking,
     gzip: false,
-    only: ObjBakingWeb.static_paths()
+    only: ObjBankingWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :obj_baking
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :obj_banking
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -47,5 +47,5 @@ defmodule ObjBakingWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug ObjBakingWeb.Router
+  plug ObjBankingWeb.Router
 end
