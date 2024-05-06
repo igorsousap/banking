@@ -1,4 +1,4 @@
-defmodule ObjBaking.Persistence.Contas.Conta do
+defmodule ObjBaking.Persistence.Accounts.Account do
   @moduledoc """
   Ecto changeset for validation the struct to be sabed and query for get and update
   """
@@ -7,33 +7,30 @@ defmodule ObjBaking.Persistence.Contas.Conta do
   import Ecto.Changeset
   import Ecto.Query
 
+  @primary_key {:conta_id, :integer, autogenerate: false}
   schema "conta" do
     field(:saldo, :float)
-    field(:saldo_anterior, :float, default: 0.0)
 
     timestamps()
   end
 
-  @fields [:saldo, :saldo_anterior]
+  @fields [:saldo, :conta_id]
 
   @doc """
-  Can receive a struct for update a data or nothing and return a empyt struct to be created on database
+  Can receive a struct for update a data or nothing and return a empty struct to be created on database
   ## Examples
     case for a update a existing data
       iex> ObjBaking.Persistence.Contas.Conta.changeset(
          %ObjBaking.Persistence.Contas.Conta{
-                   saldo: 10.0,
-                   saldo_anterior: 20.0
+                   saldo: 10.0
                  },
           %{
-          saldo: 60.0,
-          saldo_anterior: 10.0,
+          saldo: 60.0
           })
   Case for a insert a new data
       iex> ObjBaking.Persistence.Contas.Conta.changeset(
         %{
-          saldo: 500.0,
-          saldo_anterior: 0.0,
+          saldo: 500.0
         })
 
   """
@@ -42,16 +39,16 @@ defmodule ObjBaking.Persistence.Contas.Conta do
   def changeset(conta \\ %__MODULE__{}, params) do
     conta
     |> cast(params, @fields)
-    |> validate_required([:saldo])
+    |> validate_required(@fields)
     |> validate_number(:saldo, greater_than_or_equal_to: 0)
-    |> validate_number(:saldo_anterior, greater_than_or_equal_to: 0)
+    |> unique_constraint(:conta_id, name: :conta_pkey)
   end
 
-  @spec query(%{:id => Integer.t()}) :: Ecto.Query.t()
-  def query(%{"id" => id} = _parametros) do
+  @spec query_account_id(Integer.t()) :: Ecto.Query.t()
+  def query_account_id(conta_id) do
     query =
       from(c in __MODULE__,
-        where: c.id == ^id
+        where: c.conta_id == ^conta_id
       )
 
     query
