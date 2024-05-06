@@ -1,4 +1,4 @@
-defmodule ObjBakingWeb.ContaJSON do
+defmodule ObjBakingWeb.AccountJSON do
   def index(_assings = %{conta: {:ok, data}}) do
     data
   end

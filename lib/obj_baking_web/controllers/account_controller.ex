@@ -1,11 +1,12 @@
-defmodule ObjBakingWeb.ContaController do
+defmodule ObjBakingWeb.AccountController do
   use ObjBakingWeb, :controller
   alias ObjBaking.Persistence.Accounts
 
   plug :accepts, ~w(json ...)
 
-  def get_conta(conn, params) do
-    case Accounts.get_conta(params["id"]) do
+  @spec get_account(Plug.Conn.t(), %{:id => Integer.t()}) :: Plug.Conn.t()
+  def get_account(conn, params) do
+    case Accounts.get_account(params["id"]) do
       {:error, error} ->
         conn
         |> put_status(404)
@@ -20,24 +21,10 @@ defmodule ObjBakingWeb.ContaController do
     end
   end
 
-  def create_conta(conn, params) do
-    case Accounts.create_conta(params) do
-      {:error, error} ->
-        conn
-        |> put_status(404)
-        |> render(:index, error: error)
-
-      {:ok, body} ->
-        conta = build_conta(body)
-
-        conn
-        |> put_status(201)
-        |> render(:index, conta: Jason.encode(conta))
-    end
-  end
-
-  def update_conta(conn, %{"valor" => valor} = params) do
-    case Accounts.update_saldo(%{"saldo" => valor, "conta_id" => params["conta_id"]}) do
+  @spec create_account(Plug.Conn.t(), %{:conta_id => Integer.t(), :saldo => Integer.t()}) ::
+          Plug.Conn.t()
+  def create_account(conn, params) do
+    case Accounts.create_account(params) do
       {:error, error} ->
         conn
         |> put_status(404)

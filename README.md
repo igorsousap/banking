@@ -1,18 +1,55 @@
-# ObjBaking
+# {OBJ_Bnaking}
 
-To start your Phoenix server:
+Projeto destinado ao test case para squad de Elixir na objective
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Pré-requisitos
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Antes de começar, verifique se você possui as seguintes ferramentas instaladas em sua máquina:
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+- Erlang 25.1.2 or higher
+- Elixir 1.16.2-otp-25 or higher
+- PostgreSQL or Docker
+- ASDF in case of not have elixir or erlang instaled
 
-## Learn more
+## Passo 1: Run ASDF
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Comece instalando erlang e elixir com:
+```bash
+asdf install
+```
+Caso ja possua os dois instalados pular esse passo
+
+## Passo 2: Subir Dcker
+
+Suba o docker com o comando:
+
+```bash
+sudo docker compose up
+```
+
+Caso use a postgreSQL instalado na maquina pular esse passo
+
+## Passo 3: Iniciando projeto
+
+Apos definir o ambiente iniciaremos o projeto com
+```bash
+mix deps.get
+mix ecto.create
+mix ecto.migrate
+iex -S mix phx.server
+```
+Com esses passos instalamos as dependecias necessarias, criamos o banco e definimos as migracoes
+Por fim iniciamos o projeto
+## Passo 4: Endpoints de comunicacao
+
+PUtilizando o postman ou qualquer software similar chamamos as rotas:
+
+- POST localhost:4000/api/conta body: {"conta_id": 1, "saldo": 500}
+    Cria uma conta e define saldo 500
+- GET localhost:4000/api/conta/?id=1
+    Retorna a conta com ID 1
+- PUT localhost:4000/api/conta body: {"conta_id": 2, "valor": 120}
+    Soma ao saldo um valor especifico
+- POST localhost:4000/api/transacao body: {"forma_pagamento":"C", "conta_id": 2, "valor": 10}
+    Realiza as transacoes a depender da forma de pagamento "C" - credito "D" - debito "P" - PIX
+
