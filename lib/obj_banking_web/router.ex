@@ -8,6 +8,7 @@ defmodule ObjBankingWeb.Router do
   scope "/api", ObjBankingWeb do
     pipe_through :api
     post "/transacao", TransactionController, :register_transaction
+    post "/transacao/schedule", TransactionController, :schedule_transaction
     put "/conta", TransactionController, :update_balance
     post "/conta", AccountController, :create_account
     get "/conta", AccountController, :get_account
