@@ -1,4 +1,4 @@
-# {OBJ_Bnaking}
+# {OBJ_Banking}
 
 Projeto destinado ao test case para squad de Elixir na objective
 
@@ -52,4 +52,5 @@ PUtilizando o postman ou qualquer software similar chamamos as rotas:
     Soma ao saldo um valor especifico
 - POST localhost:4000/api/transacao body: {"forma_pagamento":"C", "conta_id": 2, "valor": 10}
     Realiza as transacoes a depender da forma de pagamento "C" - credito "D" - debito "P" - PIX
+- POST localhost:4000/api/transacao/schedule body {"forma_pagamento":"D", "conta_id": 1, "valor": 100, "schedule_at": "2024-06-07"}
 

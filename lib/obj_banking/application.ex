@@ -15,7 +15,8 @@ defmodule ObjBanking.Application do
       # Start a worker by calling: ObjBanking.Worker.start_link(arg)
       # {ObjBanking.Worker, arg},
       # Start to serve requests, typically the last entry
-      ObjBankingWeb.Endpoint
+      ObjBankingWeb.Endpoint,
+      {Oban, Application.fetch_env!(:obj_banking, Oban)}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
