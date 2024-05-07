@@ -26,6 +26,7 @@ defmodule ObjBanking.Transactions.Transaction do
           | {:error, :invalid_payment}
           | {:error, :account_not_found}
           | {:error, :account_no_balance}
+          | {:error, :value_under_zero}
   def operation(%{"forma_pagamento" => forma_pagamento} = args) do
     case Accounts.get_account(args["conta_id"]) do
       {:error, :account_not_found} ->
@@ -34,13 +35,22 @@ defmodule ObjBanking.Transactions.Transaction do
       {:ok, account} ->
         Logger.info("Starting Operation")
 
-        with {:saldo, new_saldo} <-
-               define_type(forma_pagamento, account.saldo, args["valor"]),
+        with {:ok, value} <- verify_value(args["valor"]),
+             {:saldo, new_saldo} <-
+               define_type(forma_pagamento, account.saldo, value),
              {:ok, account_updated} <-
                Accounts.update_account(%{"conta_id" => account.conta_id, "saldo" => new_saldo}) do
           {:ok, %{"conta_id" => account_updated.conta_id, "saldo" => account_updated.saldo}}
         end
     end
+  end
+
+  defp verify_value(value) when value >= 0 do
+    {:ok, value}
+  end
+
+  defp verify_value(_value) do
+    {:error, :value_under_zero}
   end
 
   defp define_type("D", saldo, valor) do

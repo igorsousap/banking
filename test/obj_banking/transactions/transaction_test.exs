@@ -47,5 +47,10 @@ defmodule ObjBanking.Transactions.TransactionTest do
       transaction = %{"conta_id" => 4, "valor" => 500, "forma_pagamento" => "C"}
       assert {:error, :account_no_balance} == Transaction.operation(transaction)
     end
+
+    test "should given {:error, :value_under_zero} when passed a value negative" do
+      transaction = %{"conta_id" => 4, "valor" => -500.0, "forma_pagamento" => "C"}
+      assert {:error, :value_under_zero} == Transaction.operation(transaction)
+    end
   end
 end
