@@ -23,7 +23,6 @@ defmodule ObjBanking.Transactions.TransactionSchedule do
           [Oban.Job.t()]
   def operation_schedule(args) do
     Logger.info("Message was been schedule at: #{args["schedule_at"]}")
-    IO.inspect(args)
 
     schedule_at =
       args["schedule_at"]

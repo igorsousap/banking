@@ -1,4 +1,4 @@
-# {OBJ_Bnaking}
+# {OBJ_Banking}
 
 Projeto destinado ao test case para squad de Elixir na objective
 

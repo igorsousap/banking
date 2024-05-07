@@ -64,7 +64,7 @@ defmodule ObjBankingWeb.TransactionController do
 
       {:ok, body} ->
         conn
-        |> put_status(201)
+        |> put_status(200)
         |> render(:index, transaction: Jason.encode(body))
     end
   end

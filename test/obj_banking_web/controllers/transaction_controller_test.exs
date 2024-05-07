@@ -108,4 +108,18 @@ defmodule ObjBankingWeb.TransactionControllerTest do
       assert %{"error" => "account_not_found"} = json_response(conn, 404)
     end
   end
+
+  describe "schedule_transaction/2" do
+    test "should return a account with a new balance", %{conn: conn} do
+      conn =
+        post(conn, ~p"/api/transacao/schedule", %{
+          forma_pagamento: "D",
+          conta_id: 1,
+          valor: 100,
+          schedule_at: "2024-06-07"
+        })
+
+      assert "\"transaction_schedule\"" = json_response(conn, 200)
+    end
+  end
 end
