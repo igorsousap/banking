@@ -1,6 +1,5 @@
-# {OBJ_Banking}
+# {Banking}
 
-Projeto destinado ao test case para squad de Elixir na objective
 
 ## Pré-requisitos
 
